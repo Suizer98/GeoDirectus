@@ -25,15 +25,23 @@ http://localhost:8055
 You can straightaway build the self hosting Directus using the sample postgres data in this repo. However if you need to start from scratch better to remove the sample data:
 
 ```bash
-sudo rm -rf postgres/data
-```
-```bash
+sudo rm -rf postgres/backup.sql
 docker-compose down -v
-sudo rm -rf postgres/data
 docker-compose up
 ```
 
-To sneak peek to your postgres relevant settings and data:
+## Backing up and restoring self hosting databases
+
+Since it is running in Docker instances, we can do below:
+```bash
+# Back up
+docker exec -t geodirectus-postgres-1 pg_dump -U postgres postgres > postgres/backup.sql
+
+# Restore
+cat ./postgres/backup.sql | docker exec -i geodirectus-postgres-1 psql -U postgres -d postgres
+```
+
+To sneak peek to your postgres relevant settings and data, go to the volume mounted:
 ```bash
 # Not recommended, this is just testing to override permission
 sudo chmod -R 777 postgres/data
