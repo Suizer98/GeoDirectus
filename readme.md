@@ -34,12 +34,16 @@ docker-compose up
 
 Since it is running in Docker instances, we can do below:
 ```bash
-# Back up
 docker exec -t geodirectus-postgres-1 pg_dump -U postgres postgres > postgres/backup.sql
-
-# Restore
-cat ./postgres/backup.sql | docker exec -i geodirectus-postgres-1 psql -U postgres -d postgres
 ```
+
+To restore using the `backup.sql`, we can edit `postgres/backup.sql` to avoid restoration errors:
+```sql
+CREATE SCHEMA IF NOT EXISTS tiger;
+CREATE SCHEMA IF NOT EXISTS tiger_data;
+CREATE SCHEMA IF NOT EXISTS topology;
+```
+Make sure we add `IF NOT EXISTS` for these 3 lines from PostGIS image.
 
 To sneak peek to your postgres relevant settings and data, go to the volume mounted:
 ```bash
