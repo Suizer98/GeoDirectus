@@ -1,6 +1,6 @@
 # GeoDirectus
 
-This is a project exploring self-hosting a CMS using Docker and PostGIS for geospatial data.
+This is a project exploring self-hosting a Directus CMS using Docker and PostGIS for geospatial data.
 
 ## Deploy
 
