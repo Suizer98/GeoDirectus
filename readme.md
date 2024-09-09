@@ -25,7 +25,7 @@ http://localhost:8055
 You can straightaway build the self hosting Directus using the sample postgres data in this repo. However if you need to start from scratch better to remove the sample data:
 
 ```bash
-sudo rm -rf postgres/backup.sql
+sudo rm -rf postgres/data
 docker-compose down -v
 docker-compose up
 ```
