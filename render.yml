@@ -1,0 +1,57 @@
+services:
+  - name: directus
+    type: web
+    env: docker
+    dockerImage: directus/directus:11.0.2
+    ports:
+      - 8055
+    envVars:
+      SECRET: "replace-with-secure-random-value"
+      ADMIN_EMAIL: "admin@example.com"
+      ADMIN_PASSWORD: "1234"
+      DB_CLIENT: "pg"
+      DB_HOST: "postgres"
+      DB_PORT: "5432"
+      DB_DATABASE: "${POSTGRES_DB}"
+      DB_USER: "${POSTGRES_USER}"
+      DB_PASSWORD: "${POSTGRES_PASSWORD}"
+      WEBSOCKETS_ENABLED: "true"
+    healthCheckPath: "/health"
+    persistentVolumes:
+      - name: directus-database
+        path: /directus/database
+      - name: directus-uploads
+        path: /directus/uploads
+      - name: directus-extensions
+        path: /directus/extensions
+    dependsOn:
+      - postgres
+
+  - name: postgres
+    type: privateService
+    env: docker
+    dockerImage: postgis/postgis:14-3.3
+    envVars:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    healthCheckCommand: "/usr/bin/pg_isready -U postgres"
+    persistentVolumes:
+      - name: postgres-data
+        path: /var/lib/postgresql/data
+    files:
+      - path: ./postgres/01-init-user.sh
+        mountPath: /docker-entrypoint-initdb.d/01-init-user.sh
+      - path: ./postgres/backup.sql
+        mountPath: /docker-entrypoint-initdb.d/backup.sql
+
+# Persistent volumes for data storage
+persistentVolumes:
+  - name: directus-database
+    sizeGB: 1
+  - name: directus-uploads
+    sizeGB: 1
+  - name: directus-extensions
+    sizeGB: 1
+  - name: postgres-data
+    sizeGB: 5
