@@ -2,6 +2,8 @@
 
 This is a project exploring self-hosting a Directus CMS using Docker and PostGIS for geospatial data.
 
+![Tech Stacks](https://skillicons.dev/icons?i=docker,bash,linux,postgres)
+
 ## Deploy
 
 Run the project locally:
