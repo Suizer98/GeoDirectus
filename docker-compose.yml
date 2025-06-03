@@ -1,6 +1,7 @@
 services:
   directus:
     image: directus/directus:11.0.2
+    # image: docker.io/directus/directus:11.0.2
     ports:
       - 8055:8055
     volumes:
@@ -26,6 +27,7 @@ services:
 
   postgres:
     image: postgis/postgis:14-3.3
+    # image: docker.io/postgis/postgis:14-3.3
     healthcheck:
       test: /usr/bin/pg_isready -U postgres
       interval: 5s
