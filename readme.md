@@ -17,10 +17,12 @@ Run the project locally:
     ```bash
     cd geodirectus
     docker-compose up
+    OR
+    podman-compose up
     ```
 
 Access the CMS at:
-http://localhost:8055
+http://localhost:8055/admin
 
 ## Local development
 
@@ -30,6 +32,9 @@ You can straightaway build the self hosting Directus using the sample postgres d
 sudo rm -rf postgres/data
 docker-compose down -v
 docker-compose up
+OR
+podman-compose down -v
+podman-compose up
 ```
 
 ## Backing up and restoring self hosting databases
@@ -45,7 +50,7 @@ CREATE SCHEMA IF NOT EXISTS tiger;
 CREATE SCHEMA IF NOT EXISTS tiger_data;
 CREATE SCHEMA IF NOT EXISTS topology;
 ```
-Make sure we add `IF NOT EXISTS` for these 3 lines from PostGIS image.
+Make sure we add `IF NOT EXISTS` for these 3 lines from PostGIS image. Also the backup.sql is looking for the same user name, so you probably need to watch out with the POSTGRES_USER variable.
 
 To sneak peek to your postgres relevant settings and data, go to the volume mounted:
 ```bash
